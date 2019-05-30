@@ -31,6 +31,7 @@ module.exports = {
           sensorValue: sensor[0].data.value
         });
       } else {
+        dbThing.sensorValue = sensor[0].data.value;
         dbThing.valueGraph.push(sensor[0].data.value);
         await dbThing.save();
       }
