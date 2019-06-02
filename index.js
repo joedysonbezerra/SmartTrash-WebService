@@ -9,7 +9,7 @@ const sentryConfig = require("./config/sentry");
 const app = express();
 const server = require("http").createServer(app);
 const io = require("socket.io")(server);
-io.origins(["http://192.168.0.120:3002/"]);
+
 Sentry.init(sentryConfig);
 
 mongoose.connect(dbConfig.url, dbConfig.flag);
@@ -31,6 +31,7 @@ io.on("connection", socket => {
   });
 });
 
+io.origins(["*"]);
 server.listen(process.env.PORT || 3000, () => {
   console.log("Servidor Iniciado");
 });
