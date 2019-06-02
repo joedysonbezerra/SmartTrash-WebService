@@ -11,10 +11,14 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@sentry/node": "^5.3.0",
+    "cors": "^2.8.5",
     "express": "^4.17.1",
     "knot-cloud": "^1.0.0",
+    "moment": "^2.24.0",
     "mongoose": "^5.5.11",
-    "require-dir": "^1.2.0"
+    "require-dir": "^1.2.0",
+    "totalvoice-node": "^1.7.1"
   },
   "devDependencies": {
     "nodemon": "^1.19.1"
