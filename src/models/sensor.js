@@ -13,8 +13,20 @@ const sensorSchema = new mongoose.Schema({
     type: String,
     required: true
   },
-  valueGraph: {
-    type: []
+  monthly: {
+    type: [
+      {
+        name: {
+          type: String,
+          default: ""
+        },
+        value: {
+          type: Number,
+          default: 0
+        }
+      }
+    ],
+    required: true
   },
   createAt: {
     type: Date,
