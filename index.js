@@ -5,7 +5,7 @@ const Sentry = require("@sentry/node");
 const path = require("path");
 const dbConfig = require("./config/database");
 const sentryConfig = require("./config/sentry");
-//const cors = require("cors");
+const cors = require("cors");
 const app = express();
 const server = require("http").createServer(app);
 const io = require("socket.io")(server);
@@ -17,17 +17,7 @@ mongoose.connect(dbConfig.url, dbConfig.flag);
 const models = path.resolve("src", "models");
 requireDir(models);
 
-//app.use(cors());
-
-app.use(function(req, res, next) {
-  res.header("Access-Control-Allow-Origin", "*");
-  res.header(
-    "Access-Control-Allow-Headers",
-    "Origin, X-Requested-With, Content-Type, Accept-Type"
-  );
-  res.header("Access-Control-Allow-Credentials", "true");
-  next();
-});
+app.use(cors());
 
 app.use(express.json());
 app.use(Sentry.Handlers.requestHandler());
