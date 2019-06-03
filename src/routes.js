@@ -1,9 +1,9 @@
-const express = require("express");
-const requireDir = require("require-dir");
-const controller = requireDir("./controllers");
+const express = require('express');
+const requireDir = require('require-dir');
+const controllers = requireDir('./controllers');
 
 const routes = express.Router();
 
-routes.post("/sensor", controller.sensorController.create);
+routes.post('/sensor', controllers.sensorController.create);
 
 module.exports = routes;

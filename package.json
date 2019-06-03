@@ -4,8 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon index.js"
+    "dev": "nodemon src/",
+    "prod": "node src/",
+    "start": "npm run dev"
   },
   "keywords": [],
   "author": "",
@@ -20,6 +21,10 @@
     "require-dir": "^1.2.0",
     "socket.io": "^2.2.0",
     "totalvoice-node": "^1.7.1"
+  },
+  "prettier": {
+    "trailingComma": "es5",
+    "singleQuote": true
   },
   "devDependencies": {
     "nodemon": "^1.19.1"

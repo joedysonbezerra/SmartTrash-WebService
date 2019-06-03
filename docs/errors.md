@@ -1,0 +1,2 @@
+device_not_found 404
+sensor_not_found 404
