@@ -6,11 +6,12 @@ const path = require('path');
 const dbConfig = require('./config/database');
 const sentryConfig = require('./config/sentry');
 const cors = require('cors');
+const cloud = require('./config/knot');
 
 const app = express();
 const server = require('http').createServer(app);
 const io = require('socket.io')(server, { origins: '*:*' });
-const port = process.env.PORT || 3003;
+const port = process.env.PORT || 3002;
 Sentry.init(sentryConfig);
 
 mongoose.connect(dbConfig.url, dbConfig.flags);
@@ -28,24 +29,17 @@ app.use(Sentry.Handlers.requestHandler());
 app.use('/api', require('./src/routes'));
 app.use(Sentry.Handlers.errorHandler());
 
-const { createOrUpdateDB } = require('./src/controllers/sensorController');
-console.log(createOrUpdateDB);
 io.on('connection', async socket => {
   console.log(`A user is connected ${socket.id}`);
+
   socket.on('subscribe', async data => {
     const { thingId, sensorId } = data;
     const event = thingId + sensorId;
     try {
       await cloud.connect();
       await cloud.subscribe(thingId);
-      cloud.on(async sensors => {
-        const sensor = sensors.filter(
-          ({ data }) => data.sensor_id === sensorId
-        );
-        const data = await createOrUpdateDB(thingId, sensor);
-        // console.log(`Name:${event}`);
-        // console.log(`data:${data}`);
-        io.emit(event, data);
+      cloud.on(async sensor => {
+        io.emit(event, sensor);
       });
     } catch (err) {
       console.log(err);

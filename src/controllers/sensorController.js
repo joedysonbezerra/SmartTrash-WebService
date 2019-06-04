@@ -71,4 +71,19 @@ async function createOrUpdateDB(id, sensor) {
 
   return dbThing;
 }
-module.exports = { create, createOrUpdateDB };
+
+async function update(req, res) {
+  let dbThing = await Sensor.findOne({
+    thingId: req.body.id,
+    sensorId: req.body.data.sensor_id,
+  });
+
+  dbThing.sensorValue = req.body.data.value;
+
+  if (dbThing.sensorValue === 'true')
+    dbThing.monthly[moment().month()].value += 1;
+
+  await dbThing.save();
+  res.json(dbThing);
+}
+module.exports = { create, update };
