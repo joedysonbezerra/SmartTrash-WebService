@@ -63,18 +63,19 @@ async function createDB(id, sensor) {
   return dbThing;
 }
 
-async function update(req, res) {
+async function update(id, data) {
   let dbThing = await Sensor.findOne({
-    thingId: req.body.id,
-    sensorId: req.body.data.sensor_id,
+    thingId: id,
+    sensorId: data.sensor_id,
   });
 
-  dbThing.sensorValue = req.body.data.value;
+  dbThing.sensorValue = data.value;
 
   if (dbThing.sensorValue === 'true')
     dbThing.monthly[moment().month()].value += 1;
 
+  const quantityCurrent = dbThing.monthly[moment().month()].value;
   await dbThing.save();
-  res.json(dbThing);
+  return { dbThing, quantityCurrent };
 }
 module.exports = { create, update };

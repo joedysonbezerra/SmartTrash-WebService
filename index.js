@@ -29,6 +29,7 @@ app.use(Sentry.Handlers.requestHandler());
 app.use('/api', require('./src/routes'));
 app.use(Sentry.Handlers.errorHandler());
 
+const { update } = require('./src/controllers/sensorController');
 io.on('connection', async socket => {
   console.log(`A user is connected ${socket.id}`);
 
@@ -39,7 +40,10 @@ io.on('connection', async socket => {
       await cloud.connect();
       await cloud.subscribe(thingId);
       cloud.on(async sensor => {
-        io.emit(event, sensor);
+        if (sensor.data.sensor_id === sensorId) {
+          const response = await update(sensor.source, sensor.data);
+          io.emit(event, response);
+        }
       });
     } catch (err) {
       console.log(err);
