@@ -28,6 +28,10 @@ const sensorSchema = new mongoose.Schema({
     ],
     required: true,
   },
+  quantityCurrent: {
+    type: Number,
+    default: 0,
+  },
   createAt: {
     type: Date,
     default: Date.now,

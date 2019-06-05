@@ -74,8 +74,8 @@ async function update(id, data) {
   if (dbThing.sensorValue === 'true')
     dbThing.monthly[moment().month()].value += 1;
 
-  const quantityCurrent = dbThing.monthly[moment().month()].value;
+  dbThing.quantityCurrent = dbThing.monthly[moment().month()].value;
   await dbThing.save();
-  return { dbThing, quantityCurrent };
+  return dbThing;
 }
 module.exports = { create, update };
