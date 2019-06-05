@@ -11,7 +11,7 @@ async function create(req, res) {
 
     const device = await searchKnotThing(cloud, req, res);
     const sensor = await searchSensor(device, req, res);
-    const dbThing = await createOrUpdateDB(device.id, sensor);
+    const dbThing = await createDB(device.id, sensor);
 
     res.json(dbThing);
   } catch (e) {
@@ -45,28 +45,19 @@ async function searchSensor(device, req, res) {
   return sensor;
 }
 
-async function createOrUpdateDB(id, sensor) {
+async function createDB(id, sensor) {
   let dbThing = await Sensor.findOne({
     thingId: id,
     sensorId: sensor[0].data.sensor_id,
   });
 
   if (!dbThing) {
-    // create
     dbThing = await Sensor.create({
       thingId: id,
       sensorId: sensor[0].data.sensor_id,
       sensorValue: sensor[0].data.value,
       monthly: enumMonth,
     });
-  } else {
-    // update
-    dbThing.sensorValue = sensor[0].data.value;
-
-    if (dbThing.sensorValue === 'true')
-      dbThing.monthly[moment().month()].value += 1;
-
-    await dbThing.save();
   }
 
   return dbThing;
