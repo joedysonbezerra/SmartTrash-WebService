@@ -78,4 +78,5 @@ async function update(id, data) {
   await dbThing.save();
   return dbThing;
 }
+
 module.exports = { create, update };
