@@ -49,6 +49,21 @@ io.on('connection', async socket => {
       console.log(err);
     }
   });
+  socket.on('energy', async data => {
+    const { thingId, sensorId } = data;
+    const event = thingId + sensorId;
+    try {
+      await cloud.connect();
+      await cloud.subscribe(thingId);
+      cloud.on(async sensor => {
+        if (sensor.data.sensor_id === sensorId) {
+          io.emit(event, sensor);
+        }
+      });
+    } catch (err) {
+      console.log(err);
+    }
+  });
 });
 
 server.listen(port, () => {
