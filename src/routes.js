@@ -4,7 +4,8 @@ const controllers = requireDir('./controllers');
 
 const routes = express.Router();
 
-routes.post('/sensor', controllers.sensorController.create);
-routes.post('/air', controllers.airConditionerController.update);
+routes.get('/energy/:name/:sensorId', controllers.energy.getData);
+routes.post('/sensor', controllers.trash.create);
+routes.post('/air', controllers.airConditioner.update);
 
 module.exports = routes;

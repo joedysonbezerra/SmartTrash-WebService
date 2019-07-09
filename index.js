@@ -29,7 +29,7 @@ app.use(Sentry.Handlers.requestHandler());
 app.use('/api', require('./src/routes'));
 app.use(Sentry.Handlers.errorHandler());
 
-const { update } = require('./src/controllers/sensorController');
+const { update } = require('./src/controllers/trash');
 io.on('connection', async socket => {
   console.log(`A user is connected ${socket.id}`);
 

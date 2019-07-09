@@ -3,12 +3,11 @@ const Sensor = mongoose.model('Sensor');
 const cloud = require('../../config/knot');
 const enumMonth = require('../../config/enumMonth');
 const moment = require('moment');
-const error = require('../utils/error');
+const { searchKnotThing, searchSensor } = require('../services/knot');
 
 async function create(req, res) {
   try {
     await cloud.connect();
-
     const device = await searchKnotThing(cloud, req, res);
     const sensor = await searchSensor(device, req, res);
     const dbThing = await createDB(device.id, sensor);
@@ -20,31 +19,6 @@ async function create(req, res) {
     await cloud.close();
   }
 }
-
-async function searchKnotThing(cloud, req, res) {
-  const devices = await cloud.getDevices();
-  const [device] = devices.filter(({ name }) => name === req.body.name);
-
-  if (!device) {
-    error(res, 'device_not_found');
-  }
-
-  return device;
-}
-
-async function searchSensor(device, req, res) {
-  const thing = await cloud.getData(device.id);
-  const sensor = thing.filter(
-    ({ data }) => data.sensor_id === req.body.sensorId
-  );
-
-  if (!sensor) {
-    error(res, 'sensor_not_found');
-  }
-
-  return sensor;
-}
-
 async function createDB(id, sensor) {
   let dbThing = await Sensor.findOne({
     thingId: id,

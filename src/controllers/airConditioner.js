@@ -1,4 +1,5 @@
 const cloud = require('../../config/knot');
+const { searchKnotThing } = require('../services/knot');
 
 async function update(req, res) {
   let on_off = 0;
@@ -6,8 +7,8 @@ async function update(req, res) {
   try {
     let _value = req.body.value;
     await cloud.connect();
-    const devices = await cloud.getDevices();
-    const [device] = devices.filter(({ name }) => name === req.body.name);
+
+    const device = await searchKnotThing(cloud, req, res);
     await cloud.setData(device.id, [{ sensorId: 1, value: _value }]);
 
     _value > 1 ? (temperature = _value) : (on_off = _value);
