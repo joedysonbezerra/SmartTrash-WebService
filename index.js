@@ -11,7 +11,7 @@ const cloud = require('./config/knot');
 const app = express();
 const server = require('http').createServer(app);
 const io = require('socket.io')(server, { origins: '*:*' });
-const port = process.env.PORT || 3003;
+const port = process.env.PORT || 3002;
 Sentry.init(sentryConfig);
 
 mongoose.connect(dbConfig.url, dbConfig.flags);

@@ -1,8 +1,8 @@
 const KNoTCloud = require("knot-cloud");
 
 module.exports = new KNoTCloud(
-  "v1.knot.cloud",
-  80,
-  "e4d78fed-af7e-4249-945b-a01908640000",
-  "469d7e3b274fc1d71407d724f0f032b5bc4f64a5"
+  "ec2-3-19-28-21.us-east-2.compute.amazonaws.com",
+  3000,
+  "8534c406-318e-408d-8477-f8721dec0000",
+  "d5b1e1ad24ae0c3857ea02ef3081501df9d7387a"
 );
