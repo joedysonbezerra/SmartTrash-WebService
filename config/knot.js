@@ -1,8 +1,8 @@
 const KNoTCloud = require('knot-cloud');
 
 module.exports = new KNoTCloud(
-  'ec2-3-19-28-21.us-east-2.compute.amazonaws.com',
+  '104.198.208.192',
   3000,
-  '8534c406-318e-408d-8477-f8721dec0000',
-  'd5b1e1ad24ae0c3857ea02ef3081501df9d7387a'
+  '49f5a43f-3003-4b1d-b4ef-f76b19f60000',
+  '2be6658d2d8d539abcb618cbfccf0cc8208b2457'
 );
